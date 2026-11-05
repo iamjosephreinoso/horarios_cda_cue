@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SIMPDA - Horarios CDA Cuenca</title>
+  <title>Horarios Coordinación de Desarrollo Académico Sede Cuenca</title>
+  
+  <!-- Favicon de la pestaña del navegador -->
+  <link rel="icon" type="image/jpeg" href="https://universidadesecuador.com/assets/images/privadas/ups.jpg">
+  <link rel="shortcut icon" type="image/jpeg" href="https://universidadesecuador.com/assets/images/privadas/ups.jpg">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
@@ -45,52 +50,32 @@
       min-height: 100vh;
     }
 
-    /* Topbar */
+    /* Barra de Navegación Principal con Logo Institucional */
     .topbar {
       background: #ffffff;
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0.65rem 1.25rem;
+      padding: 0.65rem 1.5rem;
       position: sticky;
       top: 0;
       z-index: 50;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-    }
-
-    .brand-section {
-      display: flex;
-      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
       gap: 1.25rem;
     }
 
-    .logo-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 800;
-      font-size: 1.1rem;
+    .ups-logo {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .topbar-title {
+      font-size: 0.95rem;
+      font-weight: 700;
       color: var(--primary-navy);
-      letter-spacing: -0.5px;
-    }
-
-    .period-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .period-badge select {
-      border: 1px solid var(--border-color);
-      padding: 0.35rem 0.5rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      background: #ffffff;
-      color: var(--text-main);
-      outline: none;
+      letter-spacing: -0.2px;
     }
 
     /* Layout */
@@ -163,12 +148,17 @@
       color: var(--primary-navy);
       font-weight: 700;
       line-height: 1.3;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.35rem;
     }
 
     .content-header p {
       font-size: 0.85rem;
       color: var(--text-muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .content-header p strong {
+      color: var(--primary-navy);
     }
 
     /* Barra de Selección Desktop */
@@ -235,7 +225,7 @@
       outline: none;
     }
 
-    /* Controles de vista móvil (Semana / Día) */
+    /* Controles para móviles */
     .mobile-view-controls {
       display: none;
       margin-bottom: 1rem;
@@ -288,7 +278,7 @@
       border-color: var(--primary-navy);
     }
 
-    /* Vista Lista / Agenda para Móviles */
+    /* Vista Lista / Agenda Móvil */
     .mobile-agenda-list {
       display: none;
       flex-direction: column;
@@ -335,7 +325,7 @@
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      min-width: 600px;
+      min-width: 720px;
     }
 
     th {
@@ -348,6 +338,7 @@
       font-size: 0.74rem;
       letter-spacing: 0.5px;
       text-align: center;
+      vertical-align: middle;
       white-space: nowrap;
     }
 
@@ -356,13 +347,14 @@
       left: 0;
       z-index: 20;
       background-color: #f8fafc;
-      text-align: left;
-      width: 140px;
+      text-align: center;
+      vertical-align: middle;
+      width: 120px;
       border-right: 2px solid var(--border-color);
     }
 
     td {
-      padding: 0.6rem 0.65rem;
+      padding: 0.65rem 0.45rem;
       border-bottom: 1px solid var(--border-color);
       border-right: 1px solid #f1f5f9;
       text-align: center;
@@ -377,7 +369,8 @@
       background-color: #ffffff;
       font-weight: 600;
       color: var(--text-muted);
-      text-align: left;
+      text-align: center;
+      vertical-align: middle;
       border-right: 2px solid var(--border-color);
       white-space: nowrap;
       box-shadow: 2px 0 4px -2px rgba(0,0,0,0.06);
@@ -392,16 +385,65 @@
       color: var(--primary-navy);
     }
 
-    /* Badges */
+    /* Contenedor de Actividad y Ubicación */
+    .cell-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
     .cell-badge {
       display: inline-block;
-      padding: 0.35rem 0.5rem;
+      padding: 0.35rem 0.55rem;
       border-radius: 6px;
-      font-size: 0.7rem;
+      font-size: 0.69rem;
       font-weight: 700;
-      line-height: 1.25;
+      line-height: 1.3;
       text-transform: uppercase;
-      word-break: break-word;
+      text-align: center;
+      max-width: 200px;
+    }
+
+    .badge-subline {
+      display: block;
+      font-size: 0.64rem;
+      font-weight: 600;
+      opacity: 0.9;
+      margin-top: 0.15rem;
+    }
+
+    /* Dos filas para la ubicación */
+    .cell-location {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.15rem;
+      font-size: 0.67rem;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 0.3rem 0.55rem;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+      line-height: 1.25;
+      max-width: 175px;
+      margin: 0 auto;
+    }
+
+    .loc-main {
+      font-weight: 700;
+      color: var(--primary-navy);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .loc-sub {
+      font-size: 0.62rem;
+      color: #64748b;
+      font-weight: 500;
     }
 
     .badge-coord { background: var(--coord-bg); color: var(--coord-text); border: 1px solid #bae6fd; }
@@ -410,24 +452,6 @@
     .badge-inv { background: var(--inv-bg); color: var(--inv-text); border: 1px solid #bbf7d0; }
     .badge-tut { background: var(--tut-bg); color: var(--tut-text); border: 1px solid #fed7aa; }
 
-    /* Indicador de Cobertura */
-    .count-circle {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
-
-    .count-high { background: #dcfce7; color: #166534; }
-    .count-med { background: #e0f2fe; color: #075985; }
-    .count-low { background: #fee2e2; color: #991b1b; }
-    .count-zero { background: #f1f5f9; color: #94a3b8; }
-
-    /* Responsive Breakpoints */
     @media (max-width: 992px) {
       .sidebar-brand {
         display: none;
@@ -439,7 +463,14 @@
 
     @media (max-width: 680px) {
       .topbar {
-        padding: 0.6rem 1rem;
+        padding: 0.55rem 1rem;
+        gap: 0.75rem;
+      }
+      .ups-logo {
+        height: 34px;
+      }
+      .topbar-title {
+        font-size: 0.82rem;
       }
       .content-area {
         padding: 1rem 0.85rem;
@@ -459,58 +490,50 @@
       .mobile-view-controls {
         display: flex;
       }
-      .period-badge span {
-        display: none;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Topbar -->
+  <!-- Barra de Navegación Principal con Logo Institucional -->
   <header class="topbar">
-    <div class="brand-section">
-      <div class="logo-badge">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <span>COORDINACIÓN DE DESARROLLO ACADÉMICO</span>
-      </div>
-    </div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Logo_Universidad_Polit%C3%A9cnica_Salesiana_del_Ecuador.png" alt="Universidad Politécnica Salesiana" class="ups-logo">
+    <span class="topbar-title">Coordinación de Desarrollo Académico - Sede Cuenca</span>
   </header>
 
   <div class="app-container">
-    
 
     <!-- Contenido Principal -->
     <main class="content-area">
       <div class="content-header">
         <h1 id="view-title">HORARIOS PERSONAL DOCENTE Y ADMINISTRATIVO</h1>
         <p id="view-subtitle">Coordinación de Desarrollo Académico - Sede Cuenca</p>
+        <p id="view-subtitle3">Correo Institucional:</p>
+        <p id="view-subtitle2">Extensión:</p>
       </div>
 
       <!-- Selector Móvil Nativo -->
       <div class="mobile-picker">
         <label><i class="fa-solid fa-user-check"></i> Seleccionar Colaborador UPS</label>
         <select id="mobile-worker-select" onchange="onMobileSelectChange(this.value)">
-          <!-- Opciones dinámicas -->
         </select>
       </div>
 
       <!-- Barra de Botones Desktop -->
       <div class="selector-bar" id="button-container">
-        <!-- Opciones dinámicas -->
       </div>
 
-      <!-- Controles para teléfonos: Vista Semana / Vista Día -->
+      <!-- Controles móviles -->
       <div class="mobile-view-controls">
         <button class="mode-btn active" id="btn-mode-table" onclick="setMobileMode('table')">
-          <i class="fa-solid fa-table"></i> Vista Matriz
+          <i class="fa-solid fa-table"></i> Vista General
         </button>
         <button class="mode-btn" id="btn-mode-day" onclick="setMobileMode('day')">
           <i class="fa-solid fa-calendar-day"></i> Por Día
         </button>
       </div>
 
-      <!-- Selector de Día (Para modo móvil por día) -->
+      <!-- Selector de Día para móvil -->
       <div class="days-pill-bar" id="days-bar" style="display: none;">
         <button class="day-pill active" onclick="setDayFilter(0, this)">Lun</button>
         <button class="day-pill" onclick="setDayFilter(1, this)">Mar</button>
@@ -524,7 +547,7 @@
         <table>
           <thead>
             <tr>
-              <th>Franja Horaria</th>
+              <th>Horario</th>
               <th>Lunes</th>
               <th>Martes</th>
               <th>Miércoles</th>
@@ -533,82 +556,88 @@
             </tr>
           </thead>
           <tbody id="table-body">
-            <!-- Filas dinámicas -->
           </tbody>
         </table>
       </div>
 
-      <!-- Vista 2: Agenda por Día en Móvil -->
+      <!-- Vista 2: Agenda por Día Móvil -->
       <div class="mobile-agenda-list" id="agenda-container">
-        <!-- Tarjetas dinámicas -->
       </div>
     </main>
   </div>
 
   <script>
-    // Datos integrados de la propuesta
     const schedulesData = {      
       "Miryan Loayza": {
-        "icon": "fa-user-tie",
+        "icon": "fa-user",
         "btnLabel": "Miryan Alicia Loayza Valdivieso",
         "title": "Miryan Alicia Loayza Valdivieso",
         "dept": "Coordinadora de Desarrollo Académico - Sede Cuenca",
+        "ext": "Contacto: (+593) 74135250 Ext. 1373",
+        "mail": "Correo Institucional: mloayza@ups.edu.ec",
+        "defaultLugar": "Oficina de Coordinación Académica - Edificio Administrativo",
         "rows": [
-          { "franja": "07H00 - 08H00", "dias": ["", "DOCENCIA", "", "DOCENCIA", ""] },
-          { "franja": "08h00 - 09h00", "dias": ["COORDINACIÓN ACADÉMICA", "DOCENCIA", "", "DOCENCIA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "09h00 - 10h00", "dias": ["COORDINACIÓN ACADÉMICA", "DOCENCIA", "COORDINACIÓN ACADÉMICA", "DOCENCIA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "10h00 - 11h00", "dias": ["COORDINACIÓN ACADÉMICA", "DOCENCIA", "COORDINACIÓN ACADÉMICA", "DOCENCIA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "12h00 - 13h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "07H00 - 08H00", "dias": ["", { act: "ECUACIONES DIFERENCIALES GRUPO 4 - COMPUTACIÓN CUE", lugar: "Aula 16 - Edificio Juan Bottasso" }, "", { act: "ECUACIONES DIFERENCIALES GRUPO 4 - COMPUTACIÓN CUE", lugar: "Aula 16 - Edificio Juan Bottasso" }, ""] },
+          { "franja": "08h00 - 09h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "ECUACIONES DIFERENCIALES GRUPO 4 - COMPUTACIÓN CUE", lugar: "Aula 16 - Edificio Juan Bottasso" }, "", { act: "ECUACIONES DIFERENCIALES GRUPO 4 - COMPUTACIÓN CUE", lugar: "Aula 16 - Edificio Juan Bottasso" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "09h00 - 10h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "ECUACIONES DIFERENCIALES GRUPO 11 - ING. CIVIL CUE", lugar: "Aula 16 - Edificio Juan Bottasso" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "ECUACIONES DIFERENCIALES GRUPO 11 - ING. CIVIL CUE", lugar: "Aula 16 - Edificio Juan Bottasso" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "10h00 - 11h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "ECUACIONES DIFERENCIALES GRUPO 11 - ING. CIVIL CUE", lugar: "Aula 16 - Edificio Juan Bottasso" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "ECUACIONES DIFERENCIALES GRUPO 11 - ING. CIVIL CUE", lugar: "Aula 16 - Edificio Juan Bottasso" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "11h00 - 12h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "12h00 - 13h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
           { "franja": "13h00 - 14h00", "dias": ["", "", "", "", ""] },
           { "franja": "14h00 - 15h00", "dias": ["", "", "", "", ""] },
-          { "franja": "15h00 - 16h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "16h00 - 17h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "17h00 - 18h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "18h00 - 19h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "", ""] },
-          { "franja": "19h00 - 20h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "", ""] }
+          { "franja": "15h00 - 16h00", "dias": ["", { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", "", { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "16h00 - 17h00", "dias": ["", { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "17h00 - 18h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "18h00 - 19h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", ""] },
+          { "franja": "19h00 - 20h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", ""] }
         ]
       },
       "Joseph Reinoso": {
-        "icon": "fa-user-gear",
+        "icon": "fa-user",
         "btnLabel": "Joseph Nicolas Reinoso Villa",
         "title": "Joseph Nicolas Reinoso Villa",
         "dept": "Asistente de Coordinación de Desarrollo Académico - Sede Cuenca",
+        "mail": "Correo Institucional: jreinoso@ups.edu.ec",
+        "ext": "Contacto: (+593) 74135250 Ext. 1263",
+        "defaultLugar": "Oficina de Coordinación Académica - Edificio Administrativo",
         "rows": [
           { "franja": "07H00 - 08H00", "dias": ["", "", "", "", ""] },
-          { "franja": "08h00 - 09h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", ""] },
-          { "franja": "09h00 - 10h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "10h00 - 11h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "12h00 - 13h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "13h00 - 14h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", ""] },
-          { "franja": "14h00 - 15h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "15h00 - 16h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "16h00 - 17h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "17h00 - 18h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "18h00 - 19h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "", "", ""] },
-          { "franja": "19h00 - 20h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "", "", ""] }
+          { "franja": "08h00 - 09h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "09h00 - 10h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "10h00 - 11h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "11h00 - 12h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "12h00 - 13h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "13h00 - 14h00", "dias": ["", "", "", "", ""]},
+          { "franja": "14h00 - 15h00", "dias": ["", "", "", "", ""]},
+          { "franja": "15h00 - 16h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "16h00 - 17h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "17h00 - 18h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "18h00 - 19h00", "dias": ["", "", "", "", ""] },
+          { "franja": "19h00 - 20h00", "dias": ["", "", "", "", ""] }
         ]
       },
       "Adriana Guaman": {
-        "icon": "fa-user-check",
+        "icon": "fa-user",
         "btnLabel": "Adriana Del Pilar Guamán Buestán",
         "title": "Adriana Del Pilar Guamán Buestán",
         "dept": "Docente de Coordinación de Desarrollo Académico - Sede Cuenca",
+        "mail": "Correo Institucional: aguaman@ups.edu.ec",
+        "ext": "Contacto: (+593) 74135250 Ext. 1505",
+        "defaultLugar": "Oficina de Coordinación Académica - Edificio Administrativo",
         "rows": [
-          { "franja": "07H00 - 08H00", "dias": ["", "DOCENCIA", "", "DOCENCIA", ""] },
-          { "franja": "08h00 - 09h00", "dias": ["", "DOCENCIA", "", "DOCENCIA", "TUTOR DE PRÁCTICAS MECANICA"] },
-          { "franja": "09h00 - 10h00", "dias": ["DOCENCIA", "DOCENCIA", "DOCENCIA", "DOCENCIA", "INVESTIGACIÓN"] },
-          { "franja": "10h00 - 11h00", "dias": ["DOCENCIA", "DOCENCIA", "DOCENCIA", "DOCENCIA", "INVESTIGACIÓN"] },
-          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "TUTORIAS DE APRENDIZAJE", "COORDINACIÓN ACADÉMICA", "INVESTIGACIÓN"] },
-          { "franja": "12h00 - 13h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "TUTORIAS DE APRENDIZAJE", "COORDINACIÓN ACADÉMICA", "INVESTIGACIÓN"] },
+          { "franja": "07H00 - 08H00", "dias": ["", { act: "ALGEBRA LINEAL GRUPO 17 - MECANICA CUE", lugar: "Aula 11 - Edificio Juan Bottasso" }, "", { act: "ALGEBRA LINEAL GRUPO 17 - MECANICA CUE", lugar: "Aula 11 - Edificio Juan Bottasso" }, ""] },
+          { "franja": "08h00 - 09h00", "dias": ["", { act: "ALGEBRA LINEAL GRUPO 17 - MECANICA CUE", lugar: "Aula 11 - Edificio Juan Bottasso" }, "", { act: "ALGEBRA LINEAL GRUPO 17 - MECANICA CUE", lugar: "Aula 11 - Edificio Juan Bottasso" }, { act: "GESTIÓN TUTOR DE PRÁCTICAS MECANICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "09h00 - 10h00", "dias": [{ act: "CALCULO DE VARIAS VARIABLES GRUPO 8 - ING. CIVIL CUE", lugar: "Aula 15 - Edificio Juan Bottasso" }, { act: "CALCULO DE VARIAS VARIABLES GRUPO 9 - MECANICA CUE", lugar: "Aula 17 - Edificio Juan Bottasso" }, { act: "CALCULO DE VARIAS VARIABLES GRUPO 8 - ING. CIVIL CUE", lugar: "Aula 15 - Edificio Juan Bottasso" }, { act: "CALCULO DE VARIAS VARIABLES GRUPO 9 - MECANICA CUE", lugar: "Aula 17 - Edificio Juan Bottasso" }, { act: "INVESTIGACIÓN", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "10h00 - 11h00", "dias": [{ act: "CALCULO DE VARIAS VARIABLES GRUPO 8 - ING. CIVIL CUE", lugar: "Aula 15 - Edificio Juan Bottasso" }, { act: "CALCULO DE VARIAS VARIABLES GRUPO 9 - MECANICA CUE", lugar: "Aula 17 - Edificio Juan Bottasso" }, { act: "CALCULO DE VARIAS VARIABLES GRUPO 8 - ING. CIVIL CUE", lugar: "Aula 15 - Edificio Juan Bottasso" }, { act: "CALCULO DE VARIAS VARIABLES GRUPO 9 - MECANICA CUE", lugar: "Aula 17 - Edificio Juan Bottasso" }, { act: "INVESTIGACIÓN", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "11h00 - 12h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "TUTORIAS DE APRENDIZAJE", lugar: "Aula 1 - Edificio Juan Bottasso" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "INVESTIGACIÓN", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "12h00 - 13h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "TUTORIAS DE APRENDIZAJE", lugar: "Aula 1 - Edificio Juan Bottasso" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "INVESTIGACIÓN", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
           { "franja": "13h00 - 14h00", "dias": ["", "", "", "", ""] },
-          { "franja": "14h00 - 15h00", "dias": ["", "DOCENCIA", "", "DOCENCIA", ""] },
-          { "franja": "15h00 - 16h00", "dias": ["", "DOCENCIA", "POSGRADOS", "DOCENCIA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "16h00 - 17h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "POSGRADOS", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "17h00 - 18h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "POSGRADOS", "", "POSGRADOS"] },
-          { "franja": "18h00 - 19h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "POSGRADOS", "", ""] },
-          { "franja": "19h00 - 20h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "", "", ""] }
+          { "franja": "14h00 - 15h00", "dias": ["", { act: "ALGEBRA LINEAL GRUPO 18 - MECANICA CUE", lugar: "Aula 11 - Edificio Juan Bottasso" }, "", { act: "ALGEBRA LINEAL GRUPO 18 - MECANICA CUE", lugar: "Aula 11 - Edificio Juan Bottasso" }, ""] },
+          { "franja": "15h00 - 16h00", "dias": ["", { act: "ALGEBRA LINEAL GRUPO 18 - MECANICA CUE", lugar: "Aula 11 - Edificio Juan Bottasso" }, { act: "GESTIÓN POSGRADOS", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "ALGEBRA LINEAL GRUPO 18 - MECANICA CUE", lugar: "Aula 11 - Edificio Juan Bottasso" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "16h00 - 17h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", { act: "GESTIÓN POSGRADOS", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "17h00 - 18h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", { act: "GESTIÓN POSGRADOS", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", { act: "GESTIÓN POSGRADOS", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "18h00 - 19h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", { act: "GESTIÓN POSGRADOS", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", ""] },
+          { "franja": "19h00 - 20h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, "", "", "", ""] }
         ]
       },
       "William Torres": {
@@ -616,48 +645,54 @@
         "btnLabel": "William Eduardo Torres Zhapán",
         "title": "William Eduardo Torres Zhapán",
         "dept": "Auxiliar de Coordinación de Desarrollo Académico - Sede Cuenca",
+        "mail": "Correo Institucional: wtorresz@ups.edu.ec",
+        "ext": "Contacto: (+593) 74135250 Ext. 1413",
+        "defaultLugar": "Oficina de Coordinación Académica - Edificio Administrativo",
         "rows": [
           { "franja": "07H00 - 08H00", "dias": ["", "", "", "", ""] },
-          { "franja": "08h00 - 09h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA", ""] },
-          { "franja": "09h00 - 10h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", ""] },
-          { "franja": "10h00 - 11h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "12h00 - 13h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "13h00 - 14h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "14h00 - 15h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", ""] },
-          { "franja": "15h00 - 16h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "16h00 - 17h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "17h00 - 18h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "18h00 - 19h00", "dias": ["", "", "", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "08h00 - 09h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "09h00 - 10h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "10h00 - 11h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "11h00 - 12h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "12h00 - 13h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "13h00 - 14h00", "dias": ["", "", "", "", ""]},
+          { "franja": "14h00 - 15h00", "dias": ["", "", "", "", ""]},
+          { "franja": "15h00 - 16h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "16h00 - 17h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "17h00 - 18h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "18h00 - 19h00", "dias": ["", "", "", "", ""] },
           { "franja": "19h00 - 20h00", "dias": ["", "", "", "", ""] }
         ]
       },
       "Bryon Vasquez": {
-        "icon": "fa-user-clock",
+        "icon": "fa-user",
         "btnLabel": "Byron Simón Vásquez Saldaña",
         "title": "Byron Simón Vásquez Saldaña",
         "dept": "Auxiliar de Coordinación de Desarrollo Académico - Sede Cuenca",
+        "mail": "Correo Institucional: bvasquezs@ups.edu.ec",
+        "ext": "Contacto: (+593) 74135250 Ext. 1424",
+        "defaultLugar": "Oficina de Coordinación Académica - Edificio Administrativo",
         "rows": [
           { "franja": "07H00 - 08H00", "dias": ["", "", "", "", ""] },
-          { "franja": "08h00 - 09h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "09h00 - 10h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "10h00 - 11h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "12h00 - 13h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA", ""] },
-          { "franja": "13h00 - 14h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "14h00 - 15h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "15h00 - 16h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "16h00 - 17h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
-          { "franja": "17h00 - 18h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA", ""] },
-          { "franja": "18h00 - 19h00", "dias": ["", "", "", "COORDINACIÓN ACADÉMICA", ""] },
-          { "franja": "19h00 - 20h00", "dias": ["", "", "", "COORDINACIÓN ACADÉMICA", ""] }
+          { "franja": "08h00 - 09h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "09h00 - 10h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "10h00 - 11h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "11h00 - 12h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "12h00 - 13h00", "dias": ["", "", "", "", ""]},
+          { "franja": "13h00 - 14h00", "dias": ["", "", "", "", ""]},
+          { "franja": "14h00 - 15h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "15h00 - 16h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "16h00 - 17h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "17h00 - 18h00", "dias": [{ act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }, { act: "GESTIÓN COORDINACIÓN ACADÉMICA", lugar: "Oficina de Coordinación Académica - Edificio Administrativo" }] },
+          { "franja": "18h00 - 19h00", "dias": ["", "", "", "", ""] },
+          { "franja": "19h00 - 20h00", "dias": ["", "", "", "", ""] }
         ]
       }
     };
 
-    let currentSelectedKey = "Miryan Alicia Loayza Valdivieso";
-    let selectedDayIndex = 0; // 0=Lunes
-    let mobileViewMode = 'table'; // 'table' o 'day'
+    let currentSelectedKey = "Miryan Loayza";
+    let selectedDayIndex = 0; // 0 = Lunes
+    let mobileViewMode = 'table';
 
     function initSelectors() {
       const btnContainer = document.getElementById('button-container');
@@ -668,14 +703,12 @@
       Object.keys(schedulesData).forEach((key, idx) => {
         const item = schedulesData[key];
         
-        // Botones Desktop
         const btn = document.createElement('button');
         btn.className = `user-btn ${idx === 0 ? 'active' : ''}`;
         btn.innerHTML = `<i class="fa-solid ${item.icon}"></i> ${item.btnLabel}`;
         btn.onclick = () => selectWorker(key);
         btnContainer.appendChild(btn);
 
-        // Selector Móvil
         const opt = document.createElement('option');
         opt.value = key;
         opt.textContent = item.btnLabel;
@@ -686,7 +719,6 @@
     function selectWorker(key) {
       currentSelectedKey = key;
 
-      // Actualizar botón desktop activo
       const buttons = document.querySelectorAll('.user-btn');
       Object.keys(schedulesData).forEach((k, idx) => {
         if (buttons[idx]) {
@@ -694,9 +726,7 @@
         }
       });
 
-      // Sincronizar select móvil
       document.getElementById('mobile-worker-select').value = key;
-
       renderView();
     }
 
@@ -725,32 +755,88 @@
       renderAgendaView();
     }
 
-    function getBadgeHtml(val, isCoverage) {
-      if (isCoverage) {
-        const count = parseInt(val, 10) || 0;
-        let colorClass = 'count-zero';
-        if (count >= 4) colorClass = 'count-high';
-        else if (count >= 2) colorClass = 'count-med';
-        else if (count === 1) colorClass = 'count-low';
-        return `<span class="count-circle ${colorClass}">${count}</span>`;
+    function parseCellData(cell) {
+      if (!cell) return null;
+      if (typeof cell === 'object') {
+        return {
+          act: cell.act || '',
+          lugar: cell.lugar || ''
+        };
+      }
+      return {
+        act: cell,
+        lugar: ''
+      };
+    }
+
+    function formatLocationHtml(lugarStr) {
+      if (!lugarStr) return '';
+      
+      if (lugarStr.includes(' - ')) {
+        const parts = lugarStr.split(' - ');
+        const main = parts[0].trim();
+        const sub = parts.slice(1).join(' - ').trim();
+        return `
+          <div class="cell-location">
+            <span class="loc-main"><i class="fa-solid fa-location-dot"></i> ${main}</span>
+            <span class="loc-sub">${sub}</span>
+          </div>
+        `;
       }
 
-      if (!val) return `<span style="color: #cbd5e1;">—</span>`;
+      return `
+        <div class="cell-location">
+          <span class="loc-main"><i class="fa-solid fa-location-dot"></i> ${lugarStr}</span>
+        </div>
+      `;
+    }
 
+    function formatActivityTextHtml(val) {
+      if (!val) return '';
+      const upper = val.toUpperCase();
+      
+      if (upper.includes('GRUPO')) {
+        const idx = upper.indexOf('GRUPO');
+        const main = val.substring(0, idx).trim();
+        const sub = val.substring(idx).trim();
+        return `${main}<span class="badge-subline">${sub}</span>`;
+      }
+      
+      return val;
+    }
+
+    function getBadgeHtml(cellData) {
+      const parsed = parseCellData(cellData);
+      if (!parsed || !parsed.act) {
+        return `<span style="color: #cbd5e1;">—</span>`;
+      }
+
+      const val = parsed.act;
+      const lugar = parsed.lugar;
       let badgeClass = 'badge-coord';
       const upper = val.toUpperCase();
-      if (upper.includes('DOCENCIA')) badgeClass = 'badge-doc';
+      if (upper.includes('ECUACIONES DIFERENCIALES') || upper.includes('CALCULO') || upper.includes('ALGEBRA')) badgeClass = 'badge-doc';
       else if (upper.includes('POSGRADOS')) badgeClass = 'badge-pos';
       else if (upper.includes('INVESTIGACIÓN')) badgeClass = 'badge-inv';
       else if (upper.includes('TUTOR')) badgeClass = 'badge-tut';
 
-      return `<span class="cell-badge ${badgeClass}">${val}</span>`;
+      const activityFormatted = formatActivityTextHtml(val);
+
+      let html = `<div class="cell-wrapper">
+                    <span class="cell-badge ${badgeClass}">${activityFormatted}</span>`;
+      if (lugar) {
+        html += formatLocationHtml(lugar);
+      }
+      html += `</div>`;
+      return html;
     }
 
     function renderView() {
       const data = schedulesData[currentSelectedKey];
       document.getElementById('view-title').textContent = data.title;
       document.getElementById('view-subtitle').textContent = data.dept;
+      document.getElementById('view-subtitle2').innerHTML = `<strong>Extensión:</strong> ${data.ext.replace('Contacto: ', '')}`;
+      document.getElementById('view-subtitle3').innerHTML = `<strong>Correo Institucional:</strong> ${data.mail.replace('Correo Institucional: ', '')}`;
 
       renderTableView();
       renderAgendaView();
@@ -769,9 +855,9 @@
         tdFranja.textContent = r.franja;
         tr.appendChild(tdFranja);
 
-        r.dias.forEach(val => {
+        r.dias.forEach(cell => {
           const td = document.createElement('td');
-          td.innerHTML = getBadgeHtml(val, data.isCoverage);
+          td.innerHTML = getBadgeHtml(cell);
           tr.appendChild(td);
         });
 
@@ -786,7 +872,7 @@
 
       data.rows.forEach(r => {
         if (!r.franja) return;
-        const val = r.dias[selectedDayIndex];
+        const cell = r.dias[selectedDayIndex];
         
         const card = document.createElement('div');
         card.className = 'agenda-item';
@@ -796,14 +882,13 @@
             <span>${r.franja}</span>
           </div>
           <div class="agenda-content">
-            ${getBadgeHtml(val, data.isCoverage)}
+            ${getBadgeHtml(cell)}
           </div>
         `;
         agenda.appendChild(card);
       });
     }
 
-    // Autoajuste al redimensionar la ventana
     window.addEventListener('resize', () => {
       const isMobile = window.innerWidth <= 680;
       if (!isMobile) {
@@ -815,9 +900,8 @@
       }
     });
 
-    // Iniciar
     initSelectors();
-    selectWorker("Miryan Alicia Loayza Valdivieso");
+    selectWorker("Miryan Loayza");
     if (window.innerWidth <= 680) {
       setMobileMode('table');
     }
