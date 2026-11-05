@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SIMPDA - Horarios CDA Cuenca</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-navy: #002855;
+      --secondary-blue: #004b87;
+      --accent-cyan: #00a3e0;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+
+      /* Actividades */
+      --coord-bg: #e0f2fe;
+      --coord-text: #0369a1;
+      --doc-bg: #fef3c7;
+      --doc-text: #b45309;
+      --pos-bg: #f3e8ff;
+      --pos-text: #7e22ce;
+      --inv-bg: #dcfce7;
+      --inv-text: #15803d;
+      --tut-bg: #ffedd5;
+      --tut-text: #c2410c;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Topbar */
+    .topbar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 1.25rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--primary-navy);
+      letter-spacing: -0.5px;
+    }
+
+    .period-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .period-badge select {
+      border: 1px solid var(--border-color);
+      padding: 0.35rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      background: #ffffff;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    /* Layout */
+    .app-container {
+      display: flex;
+      flex: 1;
+    }
+
+    /* Sidebar Institucional (Desktop) */
+    .sidebar-brand {
+      width: 300px;
+      background: linear-gradient(180deg, #001f42 0%, #002855 100%);
+      color: #ffffff;
+      padding: 3rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-icon {
+      font-size: 3rem;
+      margin-bottom: 1.25rem;
+      color: #38bdf8;
+    }
+
+    .sidebar-brand h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-brand h3 {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #93c5fd;
+      margin-bottom: 1.25rem;
+    }
+
+    .divider-line {
+      width: 44px;
+      height: 3px;
+      background-color: var(--accent-cyan);
+      border-radius: 2px;
+      margin-bottom: 1.25rem;
+    }
+
+    .sidebar-brand p {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+
+    /* Contenido */
+    .content-area {
+      flex: 1;
+      padding: 2rem;
+      min-width: 0;
+    }
+
+    .content-header {
+      margin-bottom: 1.25rem;
+    }
+
+    .content-header h1 {
+      font-size: 1.45rem;
+      color: var(--primary-navy);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 0.25rem;
+    }
+
+    .content-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Barra de Selección Desktop */
+    .selector-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .user-btn {
+      padding: 0.5rem 0.9rem;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      border-radius: 8px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .user-btn:hover {
+      background: #f8fafc;
+      color: var(--primary-navy);
+    }
+
+    .user-btn.active {
+      background: var(--primary-navy);
+      color: #ffffff;
+      border-color: var(--primary-navy);
+      box-shadow: 0 2px 4px rgba(0, 40, 85, 0.15);
+    }
+
+    /* Selector Nativo Móvil */
+    .mobile-picker {
+      display: none;
+      margin-bottom: 1rem;
+    }
+
+    .mobile-picker label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary-navy);
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.5px;
+    }
+
+    .mobile-picker select {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--primary-navy);
+      outline: none;
+    }
+
+    /* Controles de vista móvil (Semana / Día) */
+    .mobile-view-controls {
+      display: none;
+      margin-bottom: 1rem;
+      gap: 0.5rem;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 0.55rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .mode-btn.active {
+      background: var(--secondary-blue);
+      color: #ffffff;
+      border-color: var(--secondary-blue);
+    }
+
+    .days-pill-bar {
+      display: flex;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .day-pill {
+      flex: 1;
+      min-width: 60px;
+      text-align: center;
+      padding: 0.45rem 0.2rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .day-pill.active {
+      background: var(--primary-navy);
+      color: #ffffff;
+      border-color: var(--primary-navy);
+    }
+
+    /* Vista Lista / Agenda para Móviles */
+    .mobile-agenda-list {
+      display: none;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .agenda-item {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .agenda-time {
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--primary-navy);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+
+    .agenda-content {
+      text-align: right;
+    }
+
+    /* Tarjeta y Tabla */
+    .schedule-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 600px;
+    }
+
+    th {
+      background-color: #f8fafc;
+      color: var(--primary-navy);
+      font-weight: 700;
+      padding: 0.75rem 0.8rem;
+      border-bottom: 2px solid var(--border-color);
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      letter-spacing: 0.5px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    th:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 20;
+      background-color: #f8fafc;
+      text-align: left;
+      width: 140px;
+      border-right: 2px solid var(--border-color);
+    }
+
+    td {
+      padding: 0.6rem 0.65rem;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid #f1f5f9;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 0.78rem;
+    }
+
+    td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 10;
+      background-color: #ffffff;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: left;
+      border-right: 2px solid var(--border-color);
+      white-space: nowrap;
+      box-shadow: 2px 0 4px -2px rgba(0,0,0,0.06);
+    }
+
+    tbody tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    tbody tr:hover td:first-child {
+      background-color: #f1f5f9;
+      color: var(--primary-navy);
+    }
+
+    /* Badges */
+    .cell-badge {
+      display: inline-block;
+      padding: 0.35rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-transform: uppercase;
+      word-break: break-word;
+    }
+
+    .badge-coord { background: var(--coord-bg); color: var(--coord-text); border: 1px solid #bae6fd; }
+    .badge-doc { background: var(--doc-bg); color: var(--doc-text); border: 1px solid #fde68a; }
+    .badge-pos { background: var(--pos-bg); color: var(--pos-text); border: 1px solid #e9d5ff; }
+    .badge-inv { background: var(--inv-bg); color: var(--inv-text); border: 1px solid #bbf7d0; }
+    .badge-tut { background: var(--tut-bg); color: var(--tut-text); border: 1px solid #fed7aa; }
+
+    /* Indicador de Cobertura */
+    .count-circle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .count-high { background: #dcfce7; color: #166534; }
+    .count-med { background: #e0f2fe; color: #075985; }
+    .count-low { background: #fee2e2; color: #991b1b; }
+    .count-zero { background: #f1f5f9; color: #94a3b8; }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 992px) {
+      .sidebar-brand {
+        display: none;
+      }
+      .content-area {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar {
+        padding: 0.6rem 1rem;
+      }
+      .content-area {
+        padding: 1rem 0.85rem;
+      }
+      .content-header h1 {
+        font-size: 1.25rem;
+      }
+      .content-header p {
+        font-size: 0.8rem;
+      }
+      .selector-bar {
+        display: none;
+      }
+      .mobile-picker {
+        display: block;
+      }
+      .mobile-view-controls {
+        display: flex;
+      }
+      .period-badge span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand-section">
+      <div class="logo-badge">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>COORDINACIÓN DE DESARROLLO ACADÉMICO</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-container">
+    
+
+    <!-- Contenido Principal -->
+    <main class="content-area">
+      <div class="content-header">
+        <h1 id="view-title">HORARIOS PERSONAL DOCENTE Y ADMINISTRATIVO</h1>
+        <p id="view-subtitle">Coordinación de Desarrollo Académico - Sede Cuenca</p>
+      </div>
+
+      <!-- Selector Móvil Nativo -->
+      <div class="mobile-picker">
+        <label><i class="fa-solid fa-user-check"></i> Seleccionar Colaborador UPS</label>
+        <select id="mobile-worker-select" onchange="onMobileSelectChange(this.value)">
+          <!-- Opciones dinámicas -->
+        </select>
+      </div>
+
+      <!-- Barra de Botones Desktop -->
+      <div class="selector-bar" id="button-container">
+        <!-- Opciones dinámicas -->
+      </div>
+
+      <!-- Controles para teléfonos: Vista Semana / Vista Día -->
+      <div class="mobile-view-controls">
+        <button class="mode-btn active" id="btn-mode-table" onclick="setMobileMode('table')">
+          <i class="fa-solid fa-table"></i> Vista Matriz
+        </button>
+        <button class="mode-btn" id="btn-mode-day" onclick="setMobileMode('day')">
+          <i class="fa-solid fa-calendar-day"></i> Por Día
+        </button>
+      </div>
+
+      <!-- Selector de Día (Para modo móvil por día) -->
+      <div class="days-pill-bar" id="days-bar" style="display: none;">
+        <button class="day-pill active" onclick="setDayFilter(0, this)">Lun</button>
+        <button class="day-pill" onclick="setDayFilter(1, this)">Mar</button>
+        <button class="day-pill" onclick="setDayFilter(2, this)">Mié</button>
+        <button class="day-pill" onclick="setDayFilter(3, this)">Jue</button>
+        <button class="day-pill" onclick="setDayFilter(4, this)">Vie</button>
+      </div>
+
+      <!-- Vista 1: Tabla Matriz Responsive -->
+      <div class="schedule-card" id="matrix-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Franja Horaria</th>
+              <th>Lunes</th>
+              <th>Martes</th>
+              <th>Miércoles</th>
+              <th>Jueves</th>
+              <th>Viernes</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Filas dinámicas -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Vista 2: Agenda por Día en Móvil -->
+      <div class="mobile-agenda-list" id="agenda-container">
+        <!-- Tarjetas dinámicas -->
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Datos integrados de la propuesta
+    const schedulesData = {      
+      "Miryan Loayza": {
+        "icon": "fa-user-tie",
+        "btnLabel": "Miryan Alicia Loayza Valdivieso",
+        "title": "Miryan Alicia Loayza Valdivieso",
+        "dept": "Coordinadora de Desarrollo Académico - Sede Cuenca",
+        "rows": [
+          { "franja": "07H00 - 08H00", "dias": ["", "DOCENCIA", "", "DOCENCIA", ""] },
+          { "franja": "08h00 - 09h00", "dias": ["COORDINACIÓN ACADÉMICA", "DOCENCIA", "", "DOCENCIA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "09h00 - 10h00", "dias": ["COORDINACIÓN ACADÉMICA", "DOCENCIA", "COORDINACIÓN ACADÉMICA", "DOCENCIA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "10h00 - 11h00", "dias": ["COORDINACIÓN ACADÉMICA", "DOCENCIA", "COORDINACIÓN ACADÉMICA", "DOCENCIA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "12h00 - 13h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "13h00 - 14h00", "dias": ["", "", "", "", ""] },
+          { "franja": "14h00 - 15h00", "dias": ["", "", "", "", ""] },
+          { "franja": "15h00 - 16h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "16h00 - 17h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "17h00 - 18h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "18h00 - 19h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "", ""] },
+          { "franja": "19h00 - 20h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "", ""] }
+        ]
+      },
+      "Joseph Reinoso": {
+        "icon": "fa-user-gear",
+        "btnLabel": "Joseph Nicolas Reinoso Villa",
+        "title": "Joseph Nicolas Reinoso Villa",
+        "dept": "Asistente de Coordinación de Desarrollo Académico - Sede Cuenca",
+        "rows": [
+          { "franja": "07H00 - 08H00", "dias": ["", "", "", "", ""] },
+          { "franja": "08h00 - 09h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", ""] },
+          { "franja": "09h00 - 10h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "10h00 - 11h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "12h00 - 13h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "13h00 - 14h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", ""] },
+          { "franja": "14h00 - 15h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "15h00 - 16h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "16h00 - 17h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "17h00 - 18h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "18h00 - 19h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "", "", ""] },
+          { "franja": "19h00 - 20h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "", "", ""] }
+        ]
+      },
+      "Adriana Guaman": {
+        "icon": "fa-user-check",
+        "btnLabel": "Adriana Del Pilar Guamán Buestán",
+        "title": "Adriana Del Pilar Guamán Buestán",
+        "dept": "Docente de Coordinación de Desarrollo Académico - Sede Cuenca",
+        "rows": [
+          { "franja": "07H00 - 08H00", "dias": ["", "DOCENCIA", "", "DOCENCIA", ""] },
+          { "franja": "08h00 - 09h00", "dias": ["", "DOCENCIA", "", "DOCENCIA", "TUTOR DE PRÁCTICAS MECANICA"] },
+          { "franja": "09h00 - 10h00", "dias": ["DOCENCIA", "DOCENCIA", "DOCENCIA", "DOCENCIA", "INVESTIGACIÓN"] },
+          { "franja": "10h00 - 11h00", "dias": ["DOCENCIA", "DOCENCIA", "DOCENCIA", "DOCENCIA", "INVESTIGACIÓN"] },
+          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "TUTORIAS DE APRENDIZAJE", "COORDINACIÓN ACADÉMICA", "INVESTIGACIÓN"] },
+          { "franja": "12h00 - 13h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "TUTORIAS DE APRENDIZAJE", "COORDINACIÓN ACADÉMICA", "INVESTIGACIÓN"] },
+          { "franja": "13h00 - 14h00", "dias": ["", "", "", "", ""] },
+          { "franja": "14h00 - 15h00", "dias": ["", "DOCENCIA", "", "DOCENCIA", ""] },
+          { "franja": "15h00 - 16h00", "dias": ["", "DOCENCIA", "POSGRADOS", "DOCENCIA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "16h00 - 17h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "POSGRADOS", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "17h00 - 18h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "POSGRADOS", "", "POSGRADOS"] },
+          { "franja": "18h00 - 19h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "POSGRADOS", "", ""] },
+          { "franja": "19h00 - 20h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "", "", ""] }
+        ]
+      },
+      "William Torres": {
+        "icon": "fa-user",
+        "btnLabel": "William Eduardo Torres Zhapán",
+        "title": "William Eduardo Torres Zhapán",
+        "dept": "Auxiliar de Coordinación de Desarrollo Académico - Sede Cuenca",
+        "rows": [
+          { "franja": "07H00 - 08H00", "dias": ["", "", "", "", ""] },
+          { "franja": "08h00 - 09h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA", ""] },
+          { "franja": "09h00 - 10h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", ""] },
+          { "franja": "10h00 - 11h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "12h00 - 13h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "13h00 - 14h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "14h00 - 15h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA", ""] },
+          { "franja": "15h00 - 16h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "16h00 - 17h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "17h00 - 18h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "18h00 - 19h00", "dias": ["", "", "", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "19h00 - 20h00", "dias": ["", "", "", "", ""] }
+        ]
+      },
+      "Bryon Vasquez": {
+        "icon": "fa-user-clock",
+        "btnLabel": "Byron Simón Vásquez Saldaña",
+        "title": "Byron Simón Vásquez Saldaña",
+        "dept": "Auxiliar de Coordinación de Desarrollo Académico - Sede Cuenca",
+        "rows": [
+          { "franja": "07H00 - 08H00", "dias": ["", "", "", "", ""] },
+          { "franja": "08h00 - 09h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "09h00 - 10h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "10h00 - 11h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "11h00 - 12h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "12h00 - 13h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA", ""] },
+          { "franja": "13h00 - 14h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "14h00 - 15h00", "dias": ["", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "15h00 - 16h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "16h00 - 17h00", "dias": ["COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA", "COORDINACIÓN ACADÉMICA"] },
+          { "franja": "17h00 - 18h00", "dias": ["COORDINACIÓN ACADÉMICA", "", "", "COORDINACIÓN ACADÉMICA", ""] },
+          { "franja": "18h00 - 19h00", "dias": ["", "", "", "COORDINACIÓN ACADÉMICA", ""] },
+          { "franja": "19h00 - 20h00", "dias": ["", "", "", "COORDINACIÓN ACADÉMICA", ""] }
+        ]
+      }
+    };
+
+    let currentSelectedKey = "Miryan Alicia Loayza Valdivieso";
+    let selectedDayIndex = 0; // 0=Lunes
+    let mobileViewMode = 'table'; // 'table' o 'day'
+
+    function initSelectors() {
+      const btnContainer = document.getElementById('button-container');
+      const mobileSelect = document.getElementById('mobile-worker-select');
+      btnContainer.innerHTML = '';
+      mobileSelect.innerHTML = '';
+
+      Object.keys(schedulesData).forEach((key, idx) => {
+        const item = schedulesData[key];
+        
+        // Botones Desktop
+        const btn = document.createElement('button');
+        btn.className = `user-btn ${idx === 0 ? 'active' : ''}`;
+        btn.innerHTML = `<i class="fa-solid ${item.icon}"></i> ${item.btnLabel}`;
+        btn.onclick = () => selectWorker(key);
+        btnContainer.appendChild(btn);
+
+        // Selector Móvil
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = item.btnLabel;
+        mobileSelect.appendChild(opt);
+      });
+    }
+
+    function selectWorker(key) {
+      currentSelectedKey = key;
+
+      // Actualizar botón desktop activo
+      const buttons = document.querySelectorAll('.user-btn');
+      Object.keys(schedulesData).forEach((k, idx) => {
+        if (buttons[idx]) {
+          buttons[idx].classList.toggle('active', k === key);
+        }
+      });
+
+      // Sincronizar select móvil
+      document.getElementById('mobile-worker-select').value = key;
+
+      renderView();
+    }
+
+    function onMobileSelectChange(value) {
+      selectWorker(value);
+    }
+
+    function setMobileMode(mode) {
+      mobileViewMode = mode;
+      document.getElementById('btn-mode-table').classList.toggle('active', mode === 'table');
+      document.getElementById('btn-mode-day').classList.toggle('active', mode === 'day');
+      
+      const isMobile = window.innerWidth <= 680;
+      if (isMobile) {
+        document.getElementById('days-bar').style.display = mode === 'day' ? 'flex' : 'none';
+        document.getElementById('matrix-container').style.display = mode === 'table' ? 'block' : 'none';
+        document.getElementById('agenda-container').style.display = mode === 'day' ? 'flex' : 'none';
+      }
+      renderView();
+    }
+
+    function setDayFilter(dayIdx, buttonElement) {
+      selectedDayIndex = dayIdx;
+      document.querySelectorAll('.day-pill').forEach(btn => btn.classList.remove('active'));
+      buttonElement.classList.add('active');
+      renderAgendaView();
+    }
+
+    function getBadgeHtml(val, isCoverage) {
+      if (isCoverage) {
+        const count = parseInt(val, 10) || 0;
+        let colorClass = 'count-zero';
+        if (count >= 4) colorClass = 'count-high';
+        else if (count >= 2) colorClass = 'count-med';
+        else if (count === 1) colorClass = 'count-low';
+        return `<span class="count-circle ${colorClass}">${count}</span>`;
+      }
+
+      if (!val) return `<span style="color: #cbd5e1;">—</span>`;
+
+      let badgeClass = 'badge-coord';
+      const upper = val.toUpperCase();
+      if (upper.includes('DOCENCIA')) badgeClass = 'badge-doc';
+      else if (upper.includes('POSGRADOS')) badgeClass = 'badge-pos';
+      else if (upper.includes('INVESTIGACIÓN')) badgeClass = 'badge-inv';
+      else if (upper.includes('TUTOR')) badgeClass = 'badge-tut';
+
+      return `<span class="cell-badge ${badgeClass}">${val}</span>`;
+    }
+
+    function renderView() {
+      const data = schedulesData[currentSelectedKey];
+      document.getElementById('view-title').textContent = data.title;
+      document.getElementById('view-subtitle').textContent = data.dept;
+
+      renderTableView();
+      renderAgendaView();
+    }
+
+    function renderTableView() {
+      const data = schedulesData[currentSelectedKey];
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+
+      data.rows.forEach(r => {
+        if (!r.franja) return;
+        const tr = document.createElement('tr');
+
+        const tdFranja = document.createElement('td');
+        tdFranja.textContent = r.franja;
+        tr.appendChild(tdFranja);
+
+        r.dias.forEach(val => {
+          const td = document.createElement('td');
+          td.innerHTML = getBadgeHtml(val, data.isCoverage);
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderAgendaView() {
+      const data = schedulesData[currentSelectedKey];
+      const agenda = document.getElementById('agenda-container');
+      agenda.innerHTML = '';
+
+      data.rows.forEach(r => {
+        if (!r.franja) return;
+        const val = r.dias[selectedDayIndex];
+        
+        const card = document.createElement('div');
+        card.className = 'agenda-item';
+        card.innerHTML = `
+          <div class="agenda-time">
+            <i class="fa-regular fa-clock" style="color: var(--accent-cyan);"></i>
+            <span>${r.franja}</span>
+          </div>
+          <div class="agenda-content">
+            ${getBadgeHtml(val, data.isCoverage)}
+          </div>
+        `;
+        agenda.appendChild(card);
+      });
+    }
+
+    // Autoajuste al redimensionar la ventana
+    window.addEventListener('resize', () => {
+      const isMobile = window.innerWidth <= 680;
+      if (!isMobile) {
+        document.getElementById('matrix-container').style.display = 'block';
+        document.getElementById('agenda-container').style.display = 'none';
+        document.getElementById('days-bar').style.display = 'none';
+      } else {
+        setMobileMode(mobileViewMode);
+      }
+    });
+
+    // Iniciar
+    initSelectors();
+    selectWorker("Miryan Alicia Loayza Valdivieso");
+    if (window.innerWidth <= 680) {
+      setMobileMode('table');
+    }
+  </script>
+</body>
+</html>
